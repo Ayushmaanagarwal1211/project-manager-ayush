@@ -18,7 +18,7 @@ const Alltasks = () => {
 
                     let formData = { project: i._id };
             
-                    let data = await fetch("http://localhost:3001/api/v2/get-all-tasks", {
+                    let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',

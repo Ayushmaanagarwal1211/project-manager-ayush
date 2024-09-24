@@ -15,7 +15,7 @@ async function handleClick(e)
       let token=localStorage.getItem("token")
 
       console.log(formData,token)
-      const response = await fetch('http://localhost:3001/api/v2/update-task', {
+      const response = await fetch('https://backend-projectmanager.onrender.com/api/v2/update-task', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

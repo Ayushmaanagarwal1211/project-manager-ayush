@@ -17,7 +17,7 @@ export default function AddProject() {
 
   async function fetchData() {
     try {
-      const { data } = await axios.get('http://localhost:3001/api/v1/users');
+      const { data } = await axios.get('https://backend-projectmanager.onrender.com/api/v1/users');
       setUsers(data.users);
     } catch (err) {
       console.error('Failed to fetch users:', err);
@@ -40,7 +40,7 @@ export default function AddProject() {
     };
 
     try {
-      const response = await fetch('http://localhost:3001/create-project', {
+      const response = await fetch('https://backend-projectmanager.onrender.com/create-project', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

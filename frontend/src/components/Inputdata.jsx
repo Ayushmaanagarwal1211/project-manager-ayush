@@ -22,7 +22,7 @@ const InputData = ({ InputDiv, setInputDiv }) => {
 
                     let formData = { project: i._id };
             
-                    let data = await fetch("http://localhost:3001/api/v2/get-all-tasks", {
+                    let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ let [member,setMember]=useState('')
     console.log(formData)
     let token=localStorage.getItem("token")
     if (newTask.trim() && description.trim()) {
-        await  fetch('http://localhost:3001/api/v2/create-task',{
+        await  fetch('https://backend-projectmanager.onrender.com/api/v2/create-task',{
           method:"POST",
           headers: {
             'authorization': `Bearer ${token}`,            'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ function handleClick1(e){
 async function handleClick2(e){
   const selectedIndex = e.target.value;
   setCurrentProject(selectedIndex);
-  const response = await fetch("http://localhost:3001/api/v1/users");
+  const response = await fetch("https://backend-projectmanager.onrender.com/api/v1/users");
         
   if (!response.ok) {
     throw new Error("Failed to fetch users");

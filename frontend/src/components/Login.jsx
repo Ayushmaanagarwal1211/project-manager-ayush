@@ -16,7 +16,7 @@ export default function Login() {
         email: email.current.value,
         password: password.current.value,
       };
-      const response = await fetch('http://localhost:3001/api/v1/log-in', {
+      const response = await fetch('https://backend-projectmanager.onrender.com/api/v1/log-in', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

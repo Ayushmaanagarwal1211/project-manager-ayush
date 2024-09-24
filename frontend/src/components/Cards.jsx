@@ -22,7 +22,7 @@ let [InputDiv1,setInputDiv1]=useState("hidden")
         let arr=[]
         for(let i of project){
             let formData = { project: i._id };
-            let data = await fetch("http://localhost:3001/api/v2/get-all-tasks", {
+            let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ async function handleStatusChange(task){
   }
   let token=localStorage.getItem("token")
   console.log(formData,token)
-  const response = await fetch('http://localhost:3001/api/v2/changestatus', {
+  const response = await fetch('https://backend-projectmanager.onrender.com/api/v2/changestatus', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ async function handleStatusChange(task){
     }
     let token=localStorage.getItem("token")
     console.log(formData,token)
-    const response = await fetch('http://localhost:3001/api/v2/delete-task', {
+    const response = await fetch('https://backend-projectmanager.onrender.com/api/v2/delete-task', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

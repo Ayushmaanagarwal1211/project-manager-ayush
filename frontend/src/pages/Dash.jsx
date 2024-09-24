@@ -9,7 +9,7 @@ export default function Dash() {
         fetchData()
     },[])
     async function fetchData(){
-      let data= await fetch("http://localhost:3001/api/v1/get",{
+      let data= await fetch("https://backend-projectmanager.onrender.com/api/v1/get",{
         method:"GET",
             headers: {
                 'authorization': `Bearer ${token}` // Forward the token in the proper format
@@ -20,7 +20,7 @@ export default function Dash() {
             fetchData1()
         
     async function fetchData1(){
-      let project =  await fetch('http://localhost:3001/getprojects',{method:"GET"})
+      let project =  await fetch('https://backend-projectmanager.onrender.com/getprojects',{method:"GET"})
     project=await project.json()
     project=project.projects
 
