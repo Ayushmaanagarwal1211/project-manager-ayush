@@ -65,7 +65,7 @@ export default function Login() {
         }else{
           localStorage.setItem("role",result.role)
           localStorage.setItem("user",JSON.stringify(result.user))
-          window.location.href="/dashboard "
+          window.location.href="/home "
         }
       }
   }
