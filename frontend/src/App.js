@@ -24,9 +24,9 @@ function App() {
           <Route  path='/' element={<Landing/>}/>
           <Route path='/login'element={<Login/>}></Route>
           <Route path='/signup'element={<Signin/>}></Route>
-          <Route exact path='/dashboard' element={<Home />}>
+          <Route exact path='/home' element={<Home />}>
           </Route>  
-          <Route path='/home' element={<Dash />}/>
+          {/* <Route path='/home' element={<Dash />}/> */}
 
           <Route path='/alltasks' element={<Alltasks />}/>
           <Route path='/importanttasks' element={<ImportantTasks />}/>

@@ -10,13 +10,12 @@ const Alltasks = () => {
     }, []);
 
     async function fetchData() {
-        if(localStorage.getItem('project')){
+        if(JSON.parse(localStorage.getItem('project')).manager){
             let project = JSON.parse(localStorage.getItem('project'));
             if(project){
                 let arr=[]
-                for(let i of project){
 
-                    let formData = { project: i._id };
+                    let formData = { project: project._id };
             
                     let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
                         method: "POST",
@@ -26,9 +25,9 @@ const Alltasks = () => {
                         body: JSON.stringify(formData),
                     });
                     data = await data.json();
-                    data.data=data.data.filter((d)=>d.project==i._id)
+                    data.data=data.data.filter((d)=>d.project==project._id)
                     arr.push(...data.data);
-                }
+                
                 if(project.length>0){
 
                     setTasks([...arr])

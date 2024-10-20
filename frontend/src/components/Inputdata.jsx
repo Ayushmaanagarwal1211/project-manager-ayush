@@ -8,19 +8,29 @@ const InputData = ({ InputDiv, setInputDiv }) => {
   const [members, setMembers] = useState([]);
   const [project, setProject] = useState([]);
   const [currentProject, setCurrentProject] = useState([]);
+  let user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch project data from localStorage
-        const project = JSON.parse(localStorage.getItem("project"));
-
-        setProject([...project])
+        let project = await fetch("https://backend-projectmanager.onrender.com/getprojects")
+        project = await project.json()
+        let a = user
+        for(let i of project.projects){
+          if(i.manager==a._id){
+            project = i
+            break
+          }else{
+            project = {}
+          }
+        }
+        // setProject([...project])
         // Fetch user data from API
-         if(project){
-                for(let i of project){
+        if(project.manager){
+           console.log("INSIDEEEEEEEEE")
 
-                    let formData = { project: i._id };
+                    let formData = { project: project._id };
             
                     let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
                         method: "POST",
@@ -30,9 +40,11 @@ const InputData = ({ InputDiv, setInputDiv }) => {
                         body: JSON.stringify(formData),
                     });
                     data = await data.json();
-                    data.data=data.data.filter((d)=>d.project==project)
+                    data.data=data.data.filter((d)=>d.project==project._id)
                     setTasks((prev)=>[...prev,...data.data]);
-                }
+
+                setMember([ a.username])
+                console.log("SDSDSDSDSDSDSDSDSDSDSDSD",project.manager)
             }
      
       } catch (error) {
@@ -54,16 +66,14 @@ let [member,setMember]=useState('')
   const handleSubmit = async (e) => {
 
     e.preventDefault();
-    let project=JSON.parse(localStorage.getItem('project'))[0]
-    console.log(project)
+    let project=JSON.parse(localStorage.getItem('project'))
     let formData={
       title:newTask,
       desc:description,
       user:JSON.parse(localStorage.getItem('user'))._id,
       project:project._id,
-      member:member
+      member:user._id
     }
-    console.log(formData)
     let token=localStorage.getItem("token")
     if (newTask.trim() && description.trim()) {
         await  fetch('https://backend-projectmanager.onrender.com/api/v2/create-task',{
@@ -86,28 +96,6 @@ let [member,setMember]=useState('')
 function handleClick1(e){
   const selectedIndex = e.target.value;
   setMember(members[selectedIndex]._id);
-}
-async function handleClick2(e){
-  const selectedIndex = e.target.value;
-  setCurrentProject(selectedIndex);
-  const response = await fetch("https://backend-projectmanager.onrender.com/api/v1/users");
-        
-  if (!response.ok) {
-    throw new Error("Failed to fetch users");
-  }
-
-  const { users } = await response.json();
-  let u=[]
-  // Filter users if there is a project
-
-  project.map((p)=>{
-console.log(p,selectedIndex)
-    if(p._id==selectedIndex){
-      console.log(users)
-   u= users.filter((d)=>p.members.includes(d._id))
-  }})
-  console.log("FINAL ANSDWER",u)
-  setMembers([...u])
 }
   return (
     <>
@@ -134,31 +122,17 @@ console.log(p,selectedIndex)
               className="w-full p-2 mb-4 rounded"
             />            <br></br>
 
-            Select Project
-            <br></br>
-
-             <select onChange={handleClick2}>
-              <option>None</option>
-              {
-                project.map((data,index)=>
-                  
-               <option key={data._id} value={data._id} >{data.projectName}</option>
-                )
-              }
-            </select>
+           
                        <br></br>
 
             Select Team Member
             <br></br>
 
-            <select onChange={handleClick1}>
+            <select >
               <option>None</option>
-              {
-                members.map((data,index)=>
-                  
-               <option key={data._id} value={index} >{data.username}</option>
-                )
-              }
+            
+               <option key={user._id} >{user.username}</option>
+               
             </select>
             <br></br>
             <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>

@@ -8,7 +8,7 @@ import InputData from './Inputdata';
 import EditPopup from './EditPopup';
 import {FaCheck} from 'react-icons/fa6'
 const Cards = ({ InputDiv, setInputDiv }) => {
-  let user = localStorage.getItem('user');
+  let user = JSON.parse(localStorage.getItem('user'));
   let [tasks, setTasks] = useState([]);
 let [InputDiv1,setInputDiv1]=useState("hidden")
   useEffect(() => {
@@ -17,11 +17,23 @@ let [InputDiv1,setInputDiv1]=useState("hidden")
 
   async function fetchData() {
 
-      let project = JSON.parse(localStorage.getItem('project'));
-      if(project){
+      let project = await fetch("https://backend-projectmanager.onrender.com/getprojects")
+      project = await project.json()
+      let a = user
+      for(let i of project.projects){
+        if(i.manager==a._id){
+          project = i
+          localStorage.setItem("project",JSON.stringify(project))
+          break
+        }else{
+          project = {}
+          localStorage.setItem("project",JSON.stringify({}))
+
+        }
+      }
+      if(project.manager){
         let arr=[]
-        for(let i of project){
-            let formData = { project: i._id };
+            let formData = { project: project._id };
             let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
                 method: "POST",
                 headers: {
@@ -30,10 +42,11 @@ let [InputDiv1,setInputDiv1]=useState("hidden")
                 body: JSON.stringify(formData),
             });
             data = await data.json();
-            data.data=data.data.filter((d)=>d.project==i._id)
             console.log(data.data,'sdjiiiiiiiiiiiiiiiiiiiiiii')
+            data.data=data.data.filter((d)=>d.project==project._id && d.member==user._id)
+
             arr.push(...data.data);
-        }
+            console.log("TASKSSSSSSS",arr)
         setTasks([...arr])
       }
     
@@ -114,7 +127,7 @@ async function handleStatusChange(task){
 
               {/* Edit Button */}
            {
-user && JSON.parse(user).role=="manager" && 
+user && user.role=="manager" && 
 <>
 <button
   className='text-blue-500 hover:text-blue-700 transition-colors'

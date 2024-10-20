@@ -12,9 +12,9 @@ const IncompletedTasks = () => {
       }, []);
     
       async function fetchData() {
-        if(JSON.parse(localStorage.getItem('project'))){
+        if(JSON.parse(localStorage.getItem('project')).manager){
 
-          let project = JSON.parse(localStorage.getItem('project'))[0]._id;
+          let project = JSON.parse(localStorage.getItem('project'))._id;
           let formData = { project: project };
       
           let data = await fetch("https://backend-projectmanager.onrender.com/api/v2/get-all-tasks", {
@@ -39,16 +39,14 @@ const IncompletedTasks = () => {
 
         {/* Main Content */}
         <div className="w-full md:w-5/6 h-full border border-gray-500 rounded-xl p-4">
-            <h1 className="text-2xl font-bold mb-4">All Tasks</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <h1 className="text-2xl font-bold mb-4">Incomplete Tasks</h1>
+            <div className="flex h-[100vh] flex-col gap-10">
                 {tasks.map((task, index) => {
                
               return  !task.complete && <div key={index} className="border border-gray-300 p-4 rounded-lg shadow-lg bg-white">
                         <h2 className="text-xl font-semibold">{task.title}</h2>
                         <p className="text-gray-700 mb-2">{task.desc}</p>
-                        <p className={`text-sm ${task.complete ? 'text-green-600' : 'text-red-600'}`}>
-                            {task.complete ? 'Completed' : 'Incomplete'}
-                        </p>
+                      
                     </div>
 })}
             </div>
