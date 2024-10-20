@@ -7,7 +7,37 @@ export default function Login() {
   const email=useRef()
   let form=useRef()
   const password=useRef()
-  
+  async  function handleSubmit1(e){
+    e.preventDefault()
+    const formData = {
+        // fullname: fullname.current.value,
+        // number: number.current.value,
+        email: "manager@gmail.com",
+        password: "manager",
+      };
+      const response = await fetch('https://backend-projectmanager.onrender.com/api/v1/log-in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      localStorage.setItem("token",result.token)
+      if(result.id){
+        if(result.role=="admin"){
+          localStorage.setItem("user",JSON.stringify(result.user))
+
+          window.location.href="/admin "
+
+        }else{
+          localStorage.setItem("role",result.role)
+          localStorage.setItem("user",JSON.stringify(result.user))
+          window.location.href="/dashboard "
+        }
+      }
+  }
  async  function handleSubmit(e){
     e.preventDefault()
     const formData = {
@@ -76,7 +106,7 @@ export default function Login() {
                     Login
                 </button>
             </div>
-            <p className="text-blue-500 text-xl mt-3 text-center font-semibold underline hover:text-blue-600 hover:cursor-pointer">Login With Default Credentials</p>
+            <p className="text-blue-500 text-xl mt-3 text-center font-semibold underline hover:text-blue-600 hover:cursor-pointer" onClick={handleSubmit1}>Login With Default Credentials</p>
         </form>
     </div>
 </div>

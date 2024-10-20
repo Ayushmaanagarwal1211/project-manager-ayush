@@ -40,7 +40,7 @@ const Sidebar = () => {
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <h2>The code master is</h2>
+                <h2>Welcome </h2>
                 <h4>{localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")).name}</h4>
                 <hr />
             </div>
@@ -54,12 +54,12 @@ const Sidebar = () => {
             </div>
             <div className="sidebar-footer">    
                 {/* Chat Button */}
-                <Link to="/chat" className="sidebar-item sidebar-chat">
+                {/* <Link to="/chat" className="sidebar-item sidebar-chat">
                     <div className="icon">
                         <BsChatDots />
                     </div>
                     <div className="title">Chat</div>
-                </Link>
+                </Link> */}
                 {/* Logout Button */}
                 <button onClick={()=>window.location.href="/"} className="logout-button">
                     Logout
